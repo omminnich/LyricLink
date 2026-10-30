@@ -27,11 +27,11 @@ User enters a song title and artist name and is provided with the Genius link to
 Examples will be provided after program is runnable.
 
 ## Roadmap
-[ ] Save a search history
-[ ] Automatically open URL
-[ ] Give multiple results
-[ ] Account for spelling mistakes
-[ ] Option to search again
+- [ ] Save a search history
+- [ ] Automatically open URL
+- [ ] Give multiple results
+- [ ] Account for spelling mistakes
+- [ ] Option to search again
 
 ## Author
 Owen Minnich, https://github.com/omminnich
