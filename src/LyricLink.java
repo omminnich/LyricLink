@@ -6,6 +6,9 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
 
 public class LyricLink {
 
@@ -35,6 +38,25 @@ public class LyricLink {
 
             System.out.println("HTTP Status: " + hres.statusCode());
             System.out.println(hres.body());
+
+            JsonObject root = JsonParser.parseString(hres.body()).getAsJsonObject();
+            JsonObject response = root.getAsJsonObject("response");
+            JsonArray hits = response.getAsJsonArray("hits");
+            if (hits.size() > 0) {
+                JsonObject firstHit = hits.get(0).getAsJsonObject();
+                JsonObject songResult = firstHit.getAsJsonObject("result");
+
+                String resultTitle = songResult.get("title").getAsString();
+                String resultArtist = songResult.get("artist_names").getAsString();
+                String resultUrl = songResult.get("url").getAsString();
+
+                System.out.println(resultTitle);
+                System.out.println(resultArtist);
+                System.out.println(resultUrl);
+            } else {
+                System.out.println("No songs found.");
+            }
+            
             
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
