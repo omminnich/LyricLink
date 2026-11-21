@@ -42,21 +42,37 @@ public class LyricLink {
             JsonObject root = JsonParser.parseString(hres.body()).getAsJsonObject();
             JsonObject response = root.getAsJsonObject("response");
             JsonArray hits = response.getAsJsonArray("hits");
+
             if (hits.size() > 0) {
-                JsonObject firstHit = hits.get(0).getAsJsonObject();
-                JsonObject songResult = firstHit.getAsJsonObject("result");
 
-                String resultTitle = songResult.get("title").getAsString();
-                String resultArtist = songResult.get("artist_names").getAsString();
-                String resultUrl = songResult.get("url").getAsString();
+                boolean foundMatch = false;
 
-                System.out.println(resultTitle);
-                System.out.println(resultArtist);
-                System.out.println(resultUrl);
+                for (int i = 0; i < hits.size(); i++) {
+
+                    JsonObject currentHit = hits.get(i).getAsJsonObject();
+                    JsonObject songResult = currentHit.getAsJsonObject("result");
+
+                    String resultTitle = songResult.get("title").getAsString();
+                    String resultArtist = songResult.get("artist_names").getAsString();
+                    String resultUrl = songResult.get("url").getAsString();
+
+                    if (songTitle.equalsIgnoreCase(resultTitle) && resultArtist.toLowerCase().contains(artistName.toLowerCase())) {
+                        foundMatch = true;
+                        System.out.println(resultTitle);
+                        System.out.println(resultArtist);
+                        System.out.println(resultUrl);
+                        break;
+                    }
+
+                }
+
+                if (!foundMatch) {
+                    System.out.println("No songs found.");
+                }
+
             } else {
                 System.out.println("No songs found.");
             }
-            
             
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
