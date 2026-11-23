@@ -36,9 +36,6 @@ public class LyricLink {
                 .header("Authorization", "Bearer " + token).build();
             HttpResponse<String> hres = hc.send(hreq, HttpResponse.BodyHandlers.ofString());
 
-            System.out.println("HTTP Status: " + hres.statusCode());
-            System.out.println(hres.body());
-
             JsonObject root = JsonParser.parseString(hres.body()).getAsJsonObject();
             JsonObject response = root.getAsJsonObject("response");
             JsonArray hits = response.getAsJsonArray("hits");
@@ -58,9 +55,9 @@ public class LyricLink {
 
                     if (songTitle.equalsIgnoreCase(resultTitle) && resultArtist.toLowerCase().contains(artistName.toLowerCase())) {
                         foundMatch = true;
-                        System.out.println(resultTitle);
-                        System.out.println(resultArtist);
-                        System.out.println(resultUrl);
+                        System.out.println("Song: " + resultTitle);
+                        System.out.println("Artist: " + resultArtist);
+                        System.out.println("Genius Lyrics: " + resultUrl);
                         break;
                     }
 
