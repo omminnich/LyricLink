@@ -18,13 +18,27 @@ public class LyricLink {
 
         System.out.println("Enter song title: ");
         String songTitle = sc.nextLine();
+
+        if (songTitle.isBlank()) {
+            System.out.println("Error: song title cannot be empty.");
+            return;
+        }
         
         System.out.println("Enter artist name: ");
         String artistName = sc.nextLine();
 
+        if (artistName.isBlank()) {
+            System.out.println("Error: artist name cannot be empty.");
+            return;
+        }
+
         System.out.println("Searching for \"" + songTitle + "\" by " + artistName + "...");
 
         String token = System.getenv("GENIUS_ACCESS_TOKEN");
+        if (token == null || token.isBlank()) {
+            System.out.println("Error: need Genius API token");
+            return;
+        }
         String query = songTitle + " " + artistName;
         String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
 
@@ -35,6 +49,10 @@ public class LyricLink {
                 .uri(URI.create("https://api.genius.com/search?q=" + encodedQuery))
                 .header("Authorization", "Bearer " + token).build();
             HttpResponse<String> hres = hc.send(hreq, HttpResponse.BodyHandlers.ofString());
+            if (hres.statusCode() != 200) {
+                System.out.println("Error: Genius API request failed. HTTP Status: " + hres.statusCode());
+                return;
+            }
 
             JsonObject root = JsonParser.parseString(hres.body()).getAsJsonObject();
             JsonObject response = root.getAsJsonObject("response");
@@ -72,7 +90,7 @@ public class LyricLink {
             }
             
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Error: Unable to connect to Genius."); 
         }
 
         
