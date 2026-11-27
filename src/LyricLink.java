@@ -89,6 +89,11 @@ public class LyricLink {
                             System.out.println("Song: " + resultTitle);
                             System.out.println("Artist: " + resultArtist);
                             System.out.println("Genius Lyrics: " + resultUrl);
+
+                            // Automatically open URL for user convenience.
+                            ProcessBuilder pb = new ProcessBuilder("explorer.exe", resultUrl);
+                            pb.start();
+
                             break;
                         }
 

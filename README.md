@@ -9,14 +9,16 @@ LyricLink is a Java program that lets a user enter a song title and artist name 
 - Accepts song title and artist input
 - Searches for songs using the Genius API
 - Uses Gson to parse the JSON response
-- Identifies the matching song and displays its URL
 - Handles invalid inputs and unsuccessful searches
+- Identifies the matching song and displays its URL
+- Automatically opens the URL in the user's default browser (Windows/WSL)
+- Gives users the option to search for another song
 
 ![LyricLink System diagram](docs/OwenMinnich193.drawio.png)
 
 ## Tech Stack
 - Language: Java
-- Libraries: Scanner, HttpClient, Gson
+- Libraries: Scanner, HttpClient, Gson, ProcessBuilder
 - External Tools: Genius API, Git & GitHub, VSCode
 - Environment: WSL Ubuntu Terminal
 - Data Storage: None (LyricLink does not store user data)
@@ -70,8 +72,10 @@ and run the program:
 java -cp "src:/usr/share/java/gson.jar" LyricLink
 ```
 
+* Note: Automatic browser opening uses Windows Explorer (`explorer.exe`) through WSL Ubuntu. Other operating systems may not support this feature.
+
 ## Usage
-User enters a song title and artist name and is provided with the Genius link to the lyrics.
+User enters a song title and artist name and is provided with the Genius link to the lyrics. If automatic browser opening is supported, it will automatically open the URL in the user's browser.
 
 ```text
 Enter song title:
@@ -82,6 +86,9 @@ Searching for "radiolove" by riovaz...
 Song: radiolove
 Artist: Riovaz
 Genius Lyrics: https://genius.com/Riovaz-radiolove-lyrics
+Would you like to search again? (yes/no):
+no
+Goodbye!
 ```
 
 ```text
@@ -93,6 +100,20 @@ Searching for "constantly" by tiffany day...
 Song: CONSTANTLY
 Artist: Tiffany Day & slayr
 Genius Lyrics: https://genius.com/Tiffany-day-and-slayr-constantly-lyrics
+Would you like to search again? (yes/no):
+maybe
+Please enter "yes" or "no".
+Would you like to search again? (yes/no):
+yes
+Enter song title:
+asdf
+Enter artist name:
+jkl;
+Searching for "asdf" by jkl;...
+No songs found.
+Would you like to search again? (yes/no):
+No
+Goodbye!
 ```
 
 ## Roadmap
@@ -106,12 +127,12 @@ Genius Lyrics: https://genius.com/Tiffany-day-and-slayr-constantly-lyrics
 - [x] Extract and display Genius lyrics URLs
 - [x] Handle invalid inputs and failed searches
 
-### Future Features
+### Additional Features
 - [ ] Save a search history
-- [ ] Automatically open URL
+- [x] Automatically open URL
 - [ ] Give multiple results
 - [ ] Account for spelling mistakes
-- [ ] Option to search again
+- [x] Option to search again
 
 ## Demo
 Video walkthrough soon.
